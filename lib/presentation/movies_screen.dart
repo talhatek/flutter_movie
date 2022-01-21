@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yts/bloc/movies/movies_bloc.dart';
@@ -49,15 +51,42 @@ class _MoviesScreenBody extends State<MoviesScreenBody> {
       //logger.i(state.toString());
       if (state is InitialLoadingMoviesState) {
         return const Center(child: Text('loading'));
-      }
-      else if (state is SuccessMoviesState) {
+      } else if (state is SuccessMoviesState) {
         bloc.isFetching = false;
         return ListView.separated(
             controller: _controller,
-            itemBuilder: (context, index) =>
-                MovieItem(movie: bloc.movieList.elementAt(index), id: index),
+            itemBuilder: (context, index) {
+              if (index < bloc.movieList.length) {
+                return MovieItem(
+                    movie: bloc.movieList.elementAt(index), id: index);
+              } else {
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+            },
             separatorBuilder: (context, index) => const SizedBox(height: 20),
-            itemCount: bloc.movieList.length);
+            itemCount: bloc.movieList.length + (bloc.isFetching ? 1 : 0));
+      } else if (state is LoadingMoviesState) {
+        return ListView.separated(
+            controller: _controller,
+            itemBuilder: (context, index) {
+              if (index < bloc.movieList.length) {
+                return MovieItem(
+                    movie: bloc.movieList.elementAt(index), id: index);
+              } else {
+                Timer(const Duration(milliseconds: 30), () {
+                  _controller!.jumpTo(_controller!.position.maxScrollExtent);
+                });
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+            itemCount: bloc.movieList.length + 1);
       } else if (state is ErrorMoviesState) {
         return Center(child: Text(state.errorMessage));
       } else {

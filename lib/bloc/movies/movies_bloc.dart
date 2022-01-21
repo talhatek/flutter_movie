@@ -30,6 +30,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         emit(InitialLoadingMoviesState());
       } else if (!_isFetchable()) {
         return;
+      } else {
+        emit(LoadingMoviesState());
       }
 
       var movies = await moviesDataSource.getMovies(page);
