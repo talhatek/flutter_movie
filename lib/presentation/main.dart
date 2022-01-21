@@ -6,12 +6,11 @@ import 'package:yts/bloc/movies/movies_bloc.dart';
 import 'package:yts/bloc/movies/movies_data_source.dart';
 import 'package:yts/bloc/yts_observer.dart';
 import 'package:yts/network/api_client.dart';
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yts/presentation/movies_screen.dart';
 
 void main() {
-  BlocOverrides.runZoned(() => runApp(MyApp()));
+  BlocOverrides.runZoned(() => runApp(MyApp()), blocObserver: YtsObserver());
 }
 
 class MyApp extends StatelessWidget {

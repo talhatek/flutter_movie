@@ -17,7 +17,10 @@ class Movie {
   int? runtime;
   List<String>? genres;
   String? summary;
+  @JsonKey(name: 'description_full')
   String? descriptionFull;
+  @JsonKey(name: ' description_intro')
+  String?  descriptionIntro;
   String? synopsis;
   String? ytTrailerCode;
   String? language;
@@ -46,6 +49,7 @@ class Movie {
       this.genres,
       this.summary,
       this.descriptionFull,
+      this.descriptionIntro,
       this.synopsis,
       this.ytTrailerCode,
       this.language,

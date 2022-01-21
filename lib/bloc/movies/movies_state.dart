@@ -8,6 +8,8 @@ class EmptyMoviesState extends MoviesState {}
 
 class LoadingMoviesState extends MoviesState {}
 
+class InitialLoadingMoviesState extends MoviesState {}
+
 class SuccessMoviesState extends MoviesState {
   final List<Movie>? movies;
 
@@ -19,5 +21,3 @@ class ErrorMoviesState extends MoviesState {
 
   const ErrorMoviesState(this.errorMessage);
 }
-
-

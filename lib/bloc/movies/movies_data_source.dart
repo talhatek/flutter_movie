@@ -11,8 +11,8 @@ class MoviesDataSource {
     _apiClient = ApiClient(_dio);
   }
 
-  Future<MoviesResult> getMovies(){
-    return _apiClient.getMovies("5", "1");
+  Future<MoviesResult> getMovies(int page){
+    return _apiClient.getMovies("14", page.toString());
   }
 
 }
