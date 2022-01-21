@@ -20,15 +20,18 @@ class Movie {
   @JsonKey(name: 'description_full')
   String? descriptionFull;
   @JsonKey(name: ' description_intro')
-  String?  descriptionIntro;
+  String? descriptionIntro;
   String? synopsis;
-  String? ytTrailerCode;
   String? language;
-  String? mpaRating;
+  @JsonKey(name: "background_image")
   String? backgroundImage;
+  @JsonKey(name: "background_image_original")
   String? backgroundImageOriginal;
+  @JsonKey(name: "small_cover_image")
   String? smallCoverImage;
+  @JsonKey(name: "medium_cover_image")
   String? mediumCoverImage;
+  @JsonKey(name: "large_cover_image")
   String? largeCoverImage;
   String? state;
   List<Torrent>? torrents;
@@ -51,9 +54,7 @@ class Movie {
       this.descriptionFull,
       this.descriptionIntro,
       this.synopsis,
-      this.ytTrailerCode,
       this.language,
-      this.mpaRating,
       this.backgroundImage,
       this.backgroundImageOriginal,
       this.smallCoverImage,

@@ -31,6 +31,22 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
+  @override
+  Future<MoviesResult> getMovieDetails(movieId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'movie_id': movieId};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MoviesResult>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/movie_details.json.json',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MoviesResult.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

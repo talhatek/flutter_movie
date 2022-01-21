@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yts/bloc/movies/movies_bloc.dart';
 import 'package:yts/bloc/movies/movies_event.dart';
 import 'package:yts/bloc/movies/movies_state.dart';
@@ -119,22 +120,61 @@ class MovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(20),
+    return SafeArea(
+      child: Card(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        color: const Color(0xFFF5F5F5),
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(id.toString()),
-            Text(movie.title!),
-            const Padding(padding: EdgeInsets.all(4)),
-            Text(movie.rating.toString()),
-            const Padding(padding: EdgeInsets.all(4)),
-            Text(movie.descriptionFull ?? "Null",
-                maxLines: 3, overflow: TextOverflow.ellipsis)
+            Image.network(
+              movie.mediumCoverImage ?? 'https://picsum.photos/seed/789/300',
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 4,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 25),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                      child:
+                          Text(movie.title!, overflow: TextOverflow.ellipsis)),
+                  RatingBarIndicator(
+                    rating: movie.rating!,
+                    itemBuilder: (context, index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 20.0,
+                    direction: Axis.horizontal,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+              child: Text(movie.descriptionFull ?? "null",
+                  maxLines: 5, overflow: TextOverflow.ellipsis),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Text("Details"),
+                  Icon(Icons.arrow_forward_ios, color: Colors.black)
+                ],
+              ),
+            )
           ],
         ),
       ),
